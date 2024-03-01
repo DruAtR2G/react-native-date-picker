@@ -159,7 +159,7 @@ public class AndroidNative extends NumberPicker implements Picker {
             public void run() {
                 changeValueByOne(self, increment);
                 if (isLast) {
-                    sendEventIn500ms();
+                    sendEventIn200ms();
                 }
             }
         }, ms);
@@ -185,7 +185,7 @@ public class AndroidNative extends NumberPicker implements Picker {
                 // to send event during scrolling we make sure wheel is still. This particular
                 // case happens when wheel is tapped, not scrolled.
                 if(state == SCROLL_STATE_IDLE) {
-                    sendEventIn500ms();
+                    sendEventIn200ms();
                 }
             }
         });
@@ -202,18 +202,18 @@ public class AndroidNative extends NumberPicker implements Picker {
     private void sendEventIfStopped(int nextState){
         boolean stoppedScrolling = state != SCROLL_STATE_IDLE && nextState == SCROLL_STATE_IDLE;
         if (stoppedScrolling) {
-            sendEventIn500ms();
+            sendEventIn200ms();
         }
     }
 
-    private void sendEventIn500ms(){
+    private void sendEventIn200ms(){
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 onValueChangedListener.onValueChange();
             }
             // the delay make sure the wheel has stopped before sending the value change event
-        }, 500);
+        }, 200);
     }
 
     @Override
